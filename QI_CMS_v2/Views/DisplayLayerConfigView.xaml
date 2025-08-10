@@ -1,61 +1,67 @@
-﻿<UserControl x:Class="QI_CMS_v2.Views.DisplayLayerConfigView"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:QI_CMS_v2.Views"
-      xmlns:viewmodels="clr-namespace:QI_CMS_v2.ViewModels"
-      xmlns:properties="clr-namespace:QI_CMS_v2.ControlProperties"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800">
+﻿<UserControl
+    x:Class="QI_CMS_v2.Views.DisplayLayerConfigView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:QI_CMS_v2.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:QI_CMS_v2.ControlProperties"
+    xmlns:viewmodels="clr-namespace:QI_CMS_v2.ViewModels"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
     <DockPanel>
         <Grid DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="1" Orientation="Horizontal">
-                <Button Content="저장"
-                        Command="{Binding RunCommand}"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource BorderButtonStyle}"
-                        BorderBrush="Transparent"
-                        Background="#333333" Foreground="White"
-                        properties:CustomButtonProperties.MouseOverBackground="#555555"
-                        properties:CustomButtonProperties.MouseOverForeground="White"
-                        Margin="0,0,5,0" Padding="10">
-                </Button>
-                <Button Content="불러오기"
-                        Command="{Binding RunCommand}"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource BorderButtonStyle}"
-                        BorderBrush="Transparent"
-                        Background="#333333" Foreground="White"
-                        properties:CustomButtonProperties.MouseOverBackground="#555555"
-                        properties:CustomButtonProperties.MouseOverForeground="White"
-                        Margin="0,0,5,0" Padding="10">
-                </Button>
-                <Button Content="{Binding PlayState}"
-                        Command="{Binding RunCommand}"
-                        IsEnabled="{Binding IsRunCompleted}"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource BorderButtonStyle}"
-                        BorderBrush="Transparent"
-                        Background="{StaticResource ColorSecondary}" Foreground="White"
-                        properties:CustomButtonProperties.MouseOverBackground="{StaticResource ColorSecondaryLight}"
-                        Margin="0,0,5,0" Padding="10">
-                </Button>
+                <Button
+                    Margin="0,0,5,0"
+                    Padding="10"
+                    VerticalAlignment="Center"
+                    properties:CustomButtonProperties.MouseOverBackground="#555555"
+                    properties:CustomButtonProperties.MouseOverForeground="White"
+                    Background="#333333"
+                    BorderBrush="Transparent"
+                    Content="저장"
+                    Foreground="White"
+                    Style="{StaticResource BorderButtonStyle}" />
+                <Button
+                    Margin="0,0,5,0"
+                    Padding="10"
+                    VerticalAlignment="Center"
+                    properties:CustomButtonProperties.MouseOverBackground="#555555"
+                    properties:CustomButtonProperties.MouseOverForeground="White"
+                    Background="#333333"
+                    BorderBrush="Transparent"
+                    Content="불러오기"
+                    Foreground="White"
+                    Style="{StaticResource BorderButtonStyle}" />
+                <Button
+                    Margin="0,0,5,0"
+                    Padding="10"
+                    VerticalAlignment="Center"
+                    properties:CustomButtonProperties.MouseOverBackground="{StaticResource ColorSecondaryLight}"
+                    Background="{StaticResource ColorSecondary}"
+                    BorderBrush="Transparent"
+                    Command="{Binding RunCommand}"
+                    Content="{Binding PlayState}"
+                    Foreground="White"
+                    IsEnabled="{Binding IsRunCompleted}"
+                    Style="{StaticResource BorderButtonStyle}" />
             </StackPanel>
         </Grid>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="300" />
             </Grid.ColumnDefinitions>
-            <local:DisplayLayerListView Grid.Column="0"/>
-            <local:DisplayCanvasView Grid.Column="1"/>
-            <local:DisplayLayerInfoView Grid.Column="2"/>
+            <local:DisplayLayerListView Grid.Column="0" />
+            <local:DisplayCanvasView Grid.Column="1" />
+            <local:DisplayLayerInfoView Grid.Column="2" />
         </Grid>
     </DockPanel>
 </UserControl>
