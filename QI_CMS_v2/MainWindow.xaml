@@ -1,0 +1,45 @@
+﻿<Window x:Class="QI_CMS_v2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QI_CMS_v2"
+        xmlns:views="clr-namespace:QI_CMS_v2.Views"
+        xmlns:viewmodels="clr-namespace:QI_CMS_v2.ViewModels"
+        xmlns:properties="clr-namespace:QI_CMS_v2.ControlProperties"
+        mc:Ignorable="d"
+        Title="MainWindow" 
+        Height="900" Width="1600" Background="{StaticResource ColorPrimary}">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewmodels:DisplayLayerConfigViewModel}">
+            <views:DisplayLayerConfigView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:DisplayStateViewModel}">
+            <views:DisplayStateView/>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <DockPanel>
+            <ItemsControl ItemsSource="{Binding Tabs}" DockPanel.Dock="Top">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding Title}" 
+                                Command="{Binding DataContext.SelectTabCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}"
+                                Style="{StaticResource BorderButtonStyle}"
+                                properties:CustomButtonProperties.CornerRadius="0"
+                                properties:CustomButtonProperties.MouseOverBackground="{StaticResource ColorSecondary}"
+                                Effect="{x:Null}"
+                                Margin="0" Padding="10,4">
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <ContentControl Content="{Binding CurrentViewModel}"></ContentControl>
+        </DockPanel>
+    </Grid>
+</Window>

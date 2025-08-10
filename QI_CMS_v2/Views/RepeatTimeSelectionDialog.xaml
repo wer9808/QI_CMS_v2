@@ -1,0 +1,39 @@
+﻿<Window x:Class="QI_CMS_v2.Views.RepeatTimeSelectionDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QI_CMS_v2.Views"
+        mc:Ignorable="d"
+        Title="시간 선택"
+        MinWidth="280" MinHeight="200"
+        MaxWidth="300" MaxHeight="200"
+        Background="{StaticResource ColorPrimary}">
+    <Grid>
+        <StackPanel Margin="10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                <TextBlock Text="매" VerticalAlignment="Center"
+                           Foreground="White"/>
+                <ComboBox ItemsSource="{Binding Periods}" SelectedItem="{Binding SelectedPeriod, Mode=TwoWay}" Width="60"/>
+                <ComboBox ItemsSource="{Binding DayOfWeeks}" SelectedItem="{Binding SelectedDayOfWeek, Mode=TwoWay}" Width="60" Margin="3,0,0,0" Visibility="{Binding DayOfWeekVisibility}"/>
+                <TextBlock Text="요일" VerticalAlignment="Center"
+                           Foreground="White" Visibility="{Binding DayOfWeekVisibility}"/>
+                <ComboBox ItemsSource="{Binding Months}" SelectedItem="{Binding SelectedMonth, Mode=TwoWay}" Width="60" Margin="3,0,0,0" Visibility="{Binding MonthVisibility}"/>
+                <TextBlock Text="월" VerticalAlignment="Center"
+                           Foreground="White" Visibility="{Binding MonthVisibility}"/>
+                <ComboBox ItemsSource="{Binding Days}" SelectedItem="{Binding SelectedDay, Mode=TwoWay}" Width="60" Margin="3,0,0,0" Visibility="{Binding DayVisibility}"/>
+                <TextBlock Text="일" VerticalAlignment="Center"
+                           Foreground="White" Visibility="{Binding DayVisibility}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                <ComboBox ItemsSource="{Binding Hours}" SelectedItem="{Binding SelectedHour, Mode=TwoWay}" Width="50"/>
+                <TextBlock Text="시" VerticalAlignment="Center" Foreground="White"/>
+                <ComboBox ItemsSource="{Binding Minutes}" SelectedItem="{Binding SelectedMinute, Mode=TwoWay}" Width="50" Margin="3,0,0,0"/>
+                <TextBlock Text="분" VerticalAlignment="Center" Foreground="White"/>
+                <ComboBox ItemsSource="{Binding Seconds}" SelectedItem="{Binding SelectedSecond, Mode=TwoWay}" Width="50" Margin="3,0,0,0"/>
+                <TextBlock Text="초" VerticalAlignment="Center" Foreground="White"/>
+            </StackPanel>
+            <Button Content="확인" Command="{Binding ConfirmCommand}" Margin="10"/>
+        </StackPanel>
+    </Grid>
+</Window>

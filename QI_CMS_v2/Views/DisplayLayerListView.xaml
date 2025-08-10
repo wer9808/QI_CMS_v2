@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="QI_CMS_v2.Views.DisplayLayerListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:QI_CMS_v2.Views"
+             xmlns:properties="clr-namespace:QI_CMS_v2.ControlProperties"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0"
+              Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="레이어" FontSize="20" Foreground="White"/>
+            <Button Grid.Column="1" Content="↑" FontSize="18"
+                    Command="{Binding ChangeLayerZCommand}" CommandParameter="up"
+                    Style="{StaticResource BorderButtonStyle}"
+                    BorderBrush="Transparent"
+                    Background="Transparent"
+                    properties:CustomButtonProperties.MouseOverBackground="Transparent"
+                    properties:CustomButtonProperties.MouseOverForeground="{StaticResource ColorSecondary}"
+                    Effect="{x:Null}"
+                    Margin="0" Padding="0">
+                
+            </Button>
+            <Button Grid.Column="2" Content="↓" FontSize="18"
+                    Command="{Binding ChangeLayerZCommand}" CommandParameter="down"
+                    Style="{StaticResource BorderButtonStyle}"
+                    BorderBrush="Transparent"
+                    Background="Transparent"
+                    properties:CustomButtonProperties.MouseOverBackground="Transparent"
+                    properties:CustomButtonProperties.MouseOverForeground="{StaticResource ColorSecondary}"
+                    Effect="{x:Null}"
+                    Margin="0" Padding="0">
+                
+            </Button>
+        </Grid>
+        <ListView Grid.Row="1" ItemsSource="{Binding LayerRects}" SelectedItem="{Binding SelectedLayerRect}"
+                  BorderThickness="0.5"
+                  Background="{StaticResource ColorPrimary}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Name}" 
+                                   Foreground="White"
+                                   Margin="2"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</UserControl>

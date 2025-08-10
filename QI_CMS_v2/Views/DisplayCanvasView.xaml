@@ -1,0 +1,113 @@
+﻿<UserControl x:Class="QI_CMS_v2.Views.DisplayCanvasView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:QI_CMS_v2.Views"
+             xmlns:properties="clr-namespace:QI_CMS_v2.ControlProperties"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button Content="추가" Style="{StaticResource BorderButtonStyle}"
+                    Command="{Binding AddLayerCommand}" 
+                    BorderBrush="Transparent"
+                    Background="{StaticResource ColorSecondaryDark}"  Foreground="White"
+                    properties:CustomButtonProperties.MouseOverBackground="{StaticResource ColorSecondary}"
+                    Margin="2,5" Padding="5">
+            </Button>
+            <Button Content="삭제" Style="{StaticResource BorderButtonStyle}"
+                    Command="{Binding RemoveLayerCommand}" 
+                    BorderBrush="Transparent"
+                    Background="#333333" Foreground="White"
+                    Margin="2,5" Padding="5">
+            </Button>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" Background="#333333"
+                      HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <Canvas Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}"
+                        HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDown">
+                            <i:InvokeCommandAction Command="{Binding CanvasMouseDownCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseMove">
+                            <i:InvokeCommandAction Command="{Binding CanvasMouseMoveCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseUp">
+                            <i:InvokeCommandAction Command="{Binding CanvasMouseUpCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <i:InvokeCommandAction Command="{Binding CanvasMouseLeaveCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseWheel">
+                            <i:InvokeCommandAction Command="{Binding CanvasMouseWheelCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Border Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}"
+                            Background="{StaticResource ColorPrimary}"/>
+                    <ItemsControl ItemsSource="{Binding DisplayRects}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="{Binding BorderBrush}" BorderThickness="1"
+                                    Background="{Binding BackgroundColor}"
+                                    Width="{Binding Width}"
+                                    Height="{Binding Height}">
+                                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <TextBlock Text="{Binding Name}" TextAlignment="Center" FontSize="12"
+                                           Foreground="White"/>
+                                        <TextBlock Text="{Binding PositionDescription}" TextAlignment="Center" FontSize="10"
+                                           Foreground="White"/>
+                                        <TextBlock Text="{Binding SizeDescription}" TextAlignment="Center" FontSize="10"
+                                           Foreground="White"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="ContentPresenter">
+                                <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                                <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                    </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding LayerRects}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="{Binding BorderBrush}" BorderThickness="1" 
+                                        Width="{Binding Width}" Height="{Binding Height}" 
+                                        Background="{Binding BackgroundColor}">
+                                    <TextBlock Text="{Binding Id, StringFormat=Layer {0}}" TextAlignment="Center" FontSize="12" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Foreground="White"/>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="ContentPresenter">
+                                <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                                <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                    </ItemsControl>
+                </Canvas>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

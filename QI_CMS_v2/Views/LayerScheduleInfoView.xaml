@@ -1,0 +1,198 @@
+﻿<UserControl x:Class="QI_CMS_v2.Views.LayerScheduleInfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:QI_CMS_v2.Views"
+             xmlns:viewmodels="clr-namespace:QI_CMS_v2.ViewModels"
+             xmlns:converters="clr-namespace:QI_CMS_v2.Converters"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:RadioButtonConverter x:Key="RadioButtonConverter"/>
+        
+        <DataTemplate DataType="{x:Type viewmodels:TextPlayableDetailViewModel}">
+            <local:TextPlayableDetailView/>
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type viewmodels:ImagePlayableDetailViewModel}">
+            <local:ImagePlayableDetailView/>
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type viewmodels:VideoPlayableDetailViewModel}">
+            <local:VideoPlayableDetailView/>
+        </DataTemplate>
+
+        <!-- 텍스트 템플릿 -->
+        <DataTemplate x:Key="TextTemplate">
+            <Grid Width="{Binding DataContext.CanvasWidth, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                  Height="{Binding DataContext.CanvasHeight, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                  Margin="0">
+                <TextBlock Text="{Binding Source}" FontSize="{Binding FontSize}"
+                           FontFamily="Arial"
+                           TextAlignment="Left"
+                           Foreground="{Binding FontColor}"
+                           VerticalAlignment="{Binding VerticalAlignment}" HorizontalAlignment="{Binding HorizontalAlignment}"
+                           Width="{Binding Width}" Height="{Binding Height}"
+                           Margin="0" Padding="0"/>
+            </Grid>
+        </DataTemplate>
+
+        <!-- 이미지 템플릿 -->
+        <DataTemplate x:Key="ImageTemplate">
+            <Image Source="{Binding Source}" 
+                   Width="{Binding Width}" Height="{Binding Height}"
+                   Stretch="Fill"/>
+        </DataTemplate>
+
+        <!-- 비디오 템플릿 -->
+        <DataTemplate x:Key="VideoTemplate">
+            <MediaElement Source="{Binding Source}" 
+                          Width="{Binding Width}" Height="{Binding Height}" 
+                          Stretch="Fill"
+                          LoadedBehavior="Play" />
+        </DataTemplate>
+
+        <!-- DataTemplateSelector 등록 -->
+        <viewmodels:PlayableTemplateSelector x:Key="PlayableTemplateSelector"
+                                             ImageTemplate="{StaticResource ImageTemplate}" 
+                                             VideoTemplate="{StaticResource VideoTemplate}" 
+                                             TextTemplate="{StaticResource TextTemplate}"/>
+    </UserControl.Resources>
+    <Grid>
+        <DockPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" 
+                        Content="↩  목록" FontSize="12"
+                        Command="{Binding ShowListCommand}"
+                        BorderBrush="Transparent"
+                        Background="Transparent" Foreground="White"
+                        Padding="5">
+                </Button>
+            </Grid>
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10">
+                <TextBlock Text="시간 설정" FontSize="20"
+                           VerticalAlignment="Center"
+                           Foreground="White"
+                           Margin="10,0"/>
+                <StackPanel Margin="10">
+                    <RadioButton Content="연속재생" GroupName="ScheduleTypeOptions"
+                                 IsChecked="{Binding SelectedScheduleType, Mode=TwoWay, Converter={StaticResource RadioButtonConverter}, ConverterParameter=default}"
+                                 Foreground="White"
+                                 Margin="5"/>
+                    <RadioButton Content="주기적재생" GroupName="ScheduleTypeOptions"
+                                 IsChecked="{Binding SelectedScheduleType, Mode=TwoWay, Converter={StaticResource RadioButtonConverter}, ConverterParameter=repeat}"
+                                 Foreground="White"
+                                 Margin="5"/>
+                    <RadioButton Content="일회성재생" GroupName="ScheduleTypeOptions"
+                                 IsChecked="{Binding SelectedScheduleType, Mode=TwoWay, Converter={StaticResource RadioButtonConverter}, ConverterParameter=disposable}"
+                                 Foreground="White"
+                                 Margin="5"/>
+                    <TextBlock Text="{Binding TimeInfo}"
+                           Foreground="White"
+                           Margin="5,5,5,0"/>
+                </StackPanel>
+                <StackPanel Margin="10">
+                    <CheckBox Content="최대 재생시간 설정"
+                              IsChecked="{Binding HasTotalDuration}"
+                              Foreground="White"
+                              Margin="5"/>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <TextBlock Text="재생시간" 
+                                   VerticalAlignment="Center"
+                                   Foreground="White"/>
+                        <TextBox VerticalAlignment="Center"
+                                 TextAlignment="Right"
+                                 Width="30"
+                                 Text="{Binding TotalDuration, StringFormat={}{0:F1}}"
+                                 IsReadOnly="{Binding TotalDurationReadOnly}"
+                                 Margin="5,0,0,0"/>
+                        <TextBlock Text="초" 
+                                   VerticalAlignment="Center" 
+                                   Foreground="White"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="300"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <StackPanel>
+                        <TextBlock Text="재생 목록" FontSize="20"
+                                   Foreground="White"
+                                   Margin="10"/>
+                        <ListView ItemsSource="{Binding Playables}"
+                                 SelectedItem="{Binding SelectedPlayable}"
+                                 Background="#333333"
+                                 Foreground="White"
+                                 BorderBrush="Transparent"
+                                 Margin="10">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Type}" 
+                                                   Foreground="White"
+                                                   Margin="5"/>
+                                        <TextBlock Text="{Binding Name}" 
+                                                   TextTrimming="CharacterEllipsis"
+                                                   Foreground="White"
+                                                   Margin="5"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+                </Grid>
+                <DockPanel Grid.Column="1">
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Background="#303030">
+                        <Button Content="이미지" FontSize="10"
+                                Command="{Binding AddImageContentCommand}"
+                                Background="Transparent" Foreground="White"
+                                Margin="5" Padding="5">
+                            
+                        </Button>
+                        <Button Content="비디오" FontSize="10"
+                                Command="{Binding AddVideoContentCommand}"
+                                Background="Transparent" Foreground="White"
+                                Margin="5" Padding="5">
+                        </Button>
+                        <Button Content="텍스트" FontSize="10"
+                                Command="{Binding AddTextContentCommand}"
+                                Background="Transparent" Foreground="White"
+                                Margin="5" Padding="5">
+                        </Button>
+                    </StackPanel>
+                    <ScrollViewer Background="#404040" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <Canvas HorizontalAlignment="Center" VerticalAlignment="Center"
+                                Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}" 
+                                Background="Transparent"
+                                Clip="{Binding ClipGeometry}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseWheel">
+                                    <i:InvokeCommandAction Command="{Binding CanvasMouseWheelCommand}" PassEventArgsToCommand="True"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Border Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}"
+                                    Background="{Binding BackgroundColor}"/>
+                            <ContentControl Content="{Binding SelectedPlayable}" 
+                                            ContentTemplateSelector="{StaticResource PlayableTemplateSelector}"
+                                            Canvas.Left="{Binding SelectedPlayable.X}"
+                                            Canvas.Top="{Binding SelectedPlayable.Y}"/>
+                        </Canvas>
+                    </ScrollViewer>
+                </DockPanel>
+                <Grid Grid.Column="2">
+                    <ContentControl Content="{Binding SelectedPlayableDetail}"></ContentControl>
+                </Grid>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</UserControl>
